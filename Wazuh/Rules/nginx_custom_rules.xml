@@ -1,0 +1,56 @@
+<!-- NGINX custom rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<group name="nginx,sshd,">
+
+
+  <rule id="300002" level="0">
+    <decoded_as>nginx_custom_decoder</decoded_as>
+    <description>Nginx Events Group.</description>
+  </rule>
+
+  <rule id="300003" level="10">
+    <if_sid>300002</if_sid>
+    <match>../..|..//..|../|.. /</match>
+    <description>Directory Traversal Attempt Detected - Nginx</description>
+  </rule>
+
+  <rule id="300004" level="10" frequency="2" timeframe="60">
+    <if_matched_sid>300002</if_matched_sid>
+    <same_field>uri</same_field>
+    <description>Bruteforce Attempt Detected - Nginx</description>
+  </rule>
+
+  <rule id="300005" level="10">
+    <if_sid>300002</if_sid>
+    <match>document.domain|alert(document.domain)|alert(/XSS/)|alert(document.cookie)|alert(1337)|alert(|alert(/xss/)|alert(xss)|alert(1)|alert%28domain|OnLoAD=alert`1337`|alert(%271%27)|alert%</match>
+    <description>Cross Site Scripting Attempt Detected - Nginx</description>
+  </rule>
+
+  <rule id="300006" level="12">
+    <if_sid>300002</if_sid>
+    <match>UNION%20|SELECT%20|AND%20|FROM%20|information_schema|SELECT+|UNION+|SLEEP%28|SLEEP(|where+|null,null|xp_cmdshell|-- or|=0--+|OR x=x|OR x=y|AND id IS NULL|ORDER BY 1--|1=1|1=0|1%3D0|1%3D1|+ORDER+BY</match>
+    <description>SQL Injection Attempt Detected - Nginx</description>
+  </rule>
+
+  <rule id="300007" level="12">
+    <if_sid>300002</if_sid>
+    <match>jndi:ldap:|lower:jndi|loWer:Nd|lower:l|env:NaN:-j|env:BARFOO:-j|jndi:ldap|jndi:dns</match>
+    <description>Log4J Attack Detected - Nginx</description>
+  </rule>
+
+  <rule id="300008" level="11">
+    <if_sid>300002</if_sid>
+    <match>etc/issue|etc/passwd|etc/shadow|etc/group|etc/hosts|etc/motd|etc/mysql/my.cnf|proc/self|proc/self/environ|proc/version|prox/self|proc/cmdline|passwd|shadow|motd|my.cnf|/ etc / passwd</match>
+    <description>Local File Include Detected - Nginx</description>
+  </rule>
+  
+  <rule id="300009" level="11">
+    <if_sid>300002</if_sid>
+    <match>/usr/bin/id|/bin/ls -la|system(|shell_exec(|exec(|passthru(|proc_open(|popen(|system('cat%20/etc/passwd')|system("cat%20/etc/passwd")|system('/usr/bin/id')|%0Acat%20/etc/passwd|%0A/usr/bin/id|ping -i|; id|/bin/ls -al|/bin/ls|netstat -a|netstat|/bin/cat%20/etc/shadow|/bin/bash -c|/bin/bash|exec cmd=|wget http|curl http|ping -n</match>
+    <description>Command Injection Detected - Nginx</description>
+  </rule>
+  
+</group>

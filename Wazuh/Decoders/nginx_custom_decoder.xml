@@ -1,0 +1,140 @@
+<!-- NGINX Custom Decoders -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<!--
+  - Allowed static fields:
+  - location   - where the log came from (only on FTS)
+  - srcuser    - extracts the source username
+  - dstuser    - extracts the destination (target) username
+  - user       - an alias to dstuser (only one of the two can be used)
+  - srcip      - source ip
+  - dstip      - dst ip
+  - srcport    - source port
+  - dstport    - destination port
+  - protocol   - protocol
+  - id         - event id
+  - url        - url of the event
+  - action     - event action (deny, drop, accept, etc)
+  - status     - event status (success, failure, etc)
+  - extra_data - Any extra data
+-->
+
+<decoder name="nginx_custom_decoder">
+  <prematch>NGINX</prematch>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>host="(\S+)"</regex>
+  <order>host</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>remote_addr="(\d+.\d+.\d+.\d+)"</regex>
+  <order>srcip</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>remote_user="(\S+)"</regex>
+  <order>srcuser</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>request="(\S+ \S+ \S+)"</regex>
+  <order>request</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>status="(\d+)"</regex>
+  <order>http_status</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>body_bytes_sent="(\d+)"</regex>
+  <order>body_bytes_sent</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>http_referer="(\S+)"</regex>
+  <order>url</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>http_user_agent=("[^"]*)</regex>
+  <order>http_user_agent</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>http_x_forwarded_for="(\S+)"</regex>
+  <order>http_x_forwarded_for</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>request_time="(\S+)"</regex>
+  <order>request_time</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>upstream_response_time="(\S+)"</regex>
+  <order>upstream_response_time</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>upstream_addr="(\S+)"</regex>
+  <order>upstream_addr</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>http_host="(\S+)"</regex>
+  <order>http_host</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>server_name="(\S+)"</regex>
+  <order>server_name</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>request_method="(\w+)"</regex>
+  <order>request_method</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>scheme="(\w+)"</regex>
+  <order>scheme</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>server_protocol="(\S+)"</regex>
+  <order>server_protocol</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>uri="(\S+)"</regex>
+  <order>uri</order>
+</decoder>
+
+<decoder name="nginx_custom_decoder">
+  <parent>nginx_custom_decoder</parent>
+  <regex>query_string="(\S+)"</regex>
+  <order>query_string</order>
+</decoder>

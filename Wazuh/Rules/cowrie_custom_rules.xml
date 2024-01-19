@@ -1,0 +1,32 @@
+<!-- Cowrie custom rules -->
+
+<!-- Modify it at your will. -->
+<!-- Copyright (C) 2015, Wazuh Inc. -->
+
+<group name="cowrie,honeypot,sshd,">
+
+
+  <rule id="310001" level="3">
+    <decoded_as>cowrie_custom_decoder</decoded_as>
+    <description>Cowrie Events Group.</description>
+  </rule>
+
+  <rule id="310002" level="10">
+    <if_sid>310001</if_sid>
+    <field name="event_description">login attempt</field>
+    <description>Login Attempt Detected - Cowrie Honeypot</description>
+  </rule>
+
+  <rule id="310003" level="10">
+    <if_sid>310001</if_sid>
+    <field name="event_description">CMD|Command found</field>
+    <description>Command Found - Cowrie Honeypot</description>
+  </rule>
+
+  <rule id="310004" level="10">
+    <if_sid>310001</if_sid>
+    <field name="event_description">New connection</field>
+    <description>New Connection Detected - Cowrie Honeypot</description>
+  </rule>
+
+</group>
