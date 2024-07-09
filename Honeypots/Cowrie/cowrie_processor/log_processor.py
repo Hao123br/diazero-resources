@@ -17,7 +17,7 @@ class LogProcessor:
         pattern = r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z) \[cowrie.ssh.factory.CowrieSSHFactory\] New connection: (\d+\.\d+\.\d+\.\d+):(\d+) \((\d+\.\d+\.\d+\.\d+):(\d+)\) \[session: (\w+)\]'
         match = re.search(pattern, line)
         if match:
-            return f"{match.group(1)} {self.script_name}: event_type=cowrie.ssh.factory.CowrieSSHFactory, event_description=New connection, srcip={match.group(2)}, srcport={match.group(3)}, dstip={match.group(4)}, dstport={match.group(5)}, session_id={match.group(6)}"
+            return f"{match.group(1)}     {self.script_name}: event_type=cowrie.ssh.factory.CowrieSSHFactory, event_description=New connection, srcip={match.group(2)}, srcport={match.group(3)}, dstip={match.group(4)}, dstport={match.group(5)}, session_id={match.group(6)}"
 
     def process_honeypot_ssh_transport(self, line):
         if "Remote SSH version" in line:
@@ -31,19 +31,19 @@ class LogProcessor:
         pattern = r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z) \[HoneyPotSSHTransport,(\d+),(\d+\.\d+\.\d+\.\d+)\] Remote SSH version: (\S+)'
         match = re.search(pattern, line)
         if match:
-            return f"{match.group(1)} {self.script_name}: event_type=HoneyPotSSHTransport, event_description=Remote SSH version, srcip={match.group(3)}, srcport={match.group(2)}, ssh_version={match.group(4)}"
+            return f"{match.group(1)}     {self.script_name}: event_type=HoneyPotSSHTransport, event_description=Remote SSH version, srcip={match.group(3)}, srcport={match.group(2)}, ssh_version={match.group(4)}"
 
     def process_honeypot_ssh_hassh_fingerprint(self, line):
         pattern = r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z) \[HoneyPotSSHTransport,(\d+),(\d+\.\d+\.\d+\.\d+)\] SSH client hassh fingerprint: (\S+)'
         match = re.search(pattern, line)
         if match:
-            return f"{match.group(1)} {self.script_name}: event_type=HoneyPotSSHTransport, event_description=SSH client hassh fingerprint, srcip={match.group(3)}, srcport={match.group(2)}, hash_fingerprint={match.group(4)}"
+            return f"{match.group(1)}     {self.script_name}: event_type=HoneyPotSSHTransport, event_description=SSH client hassh fingerprint, srcip={match.group(3)}, srcport={match.group(2)}, hash_fingerprint={match.group(4)}"
 
     def process_honeypot_ssh_login_attempt(self, line):
         pattern = r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z) \[HoneyPotSSHTransport,(\d+),(\d+\.\d+\.\d+\.\d+)\] login attempt \[b\'(.+?)\'/b\'(.+?)\'\] (\w+)'
         match = re.search(pattern, line)
         if match:
-            return f"{match.group(1)} {self.script_name}: event_type=HoneyPotSSHTransport, event_description=login attempt, srcip={match.group(3)}, srcport={match.group(2)}, username={match.group(4)}, password={match.group(5)}, status={match.group(6)}"
+            return f"{match.group(1)}     {self.script_name}: event_type=HoneyPotSSHTransport, event_description=login attempt, srcip={match.group(3)}, srcport={match.group(2)}, username={match.group(4)}, password={match.group(5)}, status={match.group(6)}"
 
     def process_sshchannel_session(self, line):
         if "CMD:" in line:
@@ -55,10 +55,10 @@ class LogProcessor:
         pattern = r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z) \[SSHChannel session \(0\) on SSHService b\'ssh-connection\' on HoneyPotSSHTransport,(\d+),(\d+\.\d+\.\d+\.\d+)\] CMD: (.+)'
         match = re.search(pattern, line)
         if match:
-            return f"{match.group(1)} {self.script_name}: event_type=SSHChannel session, event_description=CMD, srcip={match.group(3)}, srcport={match.group(2)}, cmd={match.group(4)}"
+            return f"{match.group(1)}     {self.script_name}: event_type=SSHChannel session, event_description=CMD, srcip={match.group(3)}, srcport={match.group(2)}, cmd={match.group(4)}"
 
     def process_sshchannel_session_command_found(self, line):
         pattern = r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d+Z) \[SSHChannel session \(0\) on SSHService b\'ssh-connection\' on HoneyPotSSHTransport,(\d+),(\d+\.\d+\.\d+\.\d+)\] Command found: (.+)'
         match = re.search(pattern, line)
         if match:
-            return f"{match.group(1)} {self.script_name}: event_type=SSHChannel session, event_description=Command found, srcip={match.group(3)}, srcport={match.group(2)}, cmd={match.group(4)}"
+            return f"{match.group(1)}     {self.script_name}: event_type=SSHChannel session, event_description=Command found, srcip={match.group(3)}, srcport={match.group(2)}, cmd={match.group(4)}"
